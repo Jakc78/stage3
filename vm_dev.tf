@@ -1,12 +1,16 @@
-module "dev" {
-  count = terraform.workspace == "dev" ? 1 : 0
-  source = "./module/vm"
+resource "aws_instance" "vm" {
+  ami             = var.ami
+  instance_type   = var.instance_type
 
-  ami = data.aws_ami.amz_ami.id
-  instance_type = var.instance_type
-  sg_name = ["${module.sg.sg_name}"]
-  vm_tag = "JAKC-${terraform.workspace}"
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
 
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "Stage1"
+  }
 
 }
-
