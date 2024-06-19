@@ -1,11 +1,9 @@
-module "sg" {
-  source = "./module/sg"
+resource "aws_security_group" "allow_tls" {
+  name        = "Stage1-SG"
+  description = "Allow TLS inbound traffic"
 
-  sg_ingress = local.sg_ingress
-  sg_tag = "JAKC"
-  sg_name = "sg${terraform.workspace}"
-
-
-
+  tags = {
+    Name = "Stage1-SG"
+  }
 }
 
